@@ -51,6 +51,10 @@ public class RandomNumberUser {
         return rng.nextInt(min, max);
     }
 
+    public double getNextDouble(double min, double max) {
+        return rng.nextUniform(min, max);
+    }
+
     public int getNextBinomial(int n, double p) {
         return rng.nextBinomial(n, p);
     }

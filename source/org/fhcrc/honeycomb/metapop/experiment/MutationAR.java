@@ -41,7 +41,7 @@ import org.fhcrc.honeycomb.metapop.coordinate.picker.RandomNeighborPicker;
 import org.fhcrc.honeycomb.metapop.mutation.MutationRule;
 import org.fhcrc.honeycomb.metapop.mutation.NoMutation;
 import org.fhcrc.honeycomb.metapop.mutation.MutateCoopCheat;
-import org.fhcrc.honeycomb.metapop.mutation.MutateEachGrowth;
+import org.fhcrc.honeycomb.metapop.mutation.MutateAdaptive;
 
 import org.fhcrc.honeycomb.metapop.migration.MigrationRule;
 import org.fhcrc.honeycomb.metapop.migration.PropaguleMigration;
@@ -167,7 +167,7 @@ public abstract class MutationAR {
 
         dil_rule = makeDilutionRule();
 
-        mutation_rule = new MutateEachGrowth(mutation_rate, coop_to_cheat_mutation_rate, cheat_to_coop_mutation_rate, mutation_rng);
+        mutation_rule = new MutateAdaptive(mutation_rate, coop_to_cheat_mutation_rate, cheat_to_coop_mutation_rate, mutation_rng);
 
         migration_rule = pickMigration();
 
@@ -176,11 +176,8 @@ public abstract class MutationAR {
 
         if (initial_coop_freq < 1.0 && initial_coop_freq > 0.0 && coop_to_cheat_mutation_rate == 0) {
             stop_condition = new CoopCheatExtinctStop();
-        } else if (initial_coop_freq < 1.0 && initial_coop_freq > 0.0) {
-            stop_condition = new CoopExtinctStop();
         } else {
-            int min_pop_size = 1000;
-            stop_condition = new ExtinctOrGrowingStop(min_pop_size);
+            stop_condition = new CoopExtinctStop();
         }
 
 
