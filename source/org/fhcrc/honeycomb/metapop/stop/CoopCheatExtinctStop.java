@@ -35,15 +35,13 @@ public class CoopCheatExtinctStop extends StopCondition {
         boolean coops_extinct = false;
         boolean cheats_extinct = false;
 
-        if ((world.getSizeById("anc_coop") == 0 &&
-             world.getSizeById("evo_coop") == 0))
+        if (world.getSizeByType("coop") == 0)
         {
             System.out.println("coops extinct at step " + world.getStep());
             coops_extinct = true;
         }
 
-        if ((world.getSizeById("anc_cheat") == 0 &&
-             world.getSizeById("evo_cheat") == 0))
+        if (world.getSizeByType("cheat") == 0)
         {
             System.out.println("cheats extinct at step " + world.getStep());
             cheats_extinct = true;
