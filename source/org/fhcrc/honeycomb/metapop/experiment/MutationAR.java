@@ -114,7 +114,6 @@ public abstract class MutationAR {
     private StopCondition stop_condition;
     private String migration_range;
     private String migration_type;
-    private String mutation_type;
 
     private String output_location;
     private File data_path;
@@ -445,33 +444,32 @@ public abstract class MutationAR {
 
         migration_range = args[0];
         migration_type = args[1];
-        mutation_type = args[2];
-        initial_pop_size = (int) Double.parseDouble(args[3]);
-        mutant_freq = Double.parseDouble(args[4]);
-        coop_release_rate = Double.parseDouble(args[5]);
-        amount_for_new_cell = Double.parseDouble(args[6]);
-        initial_coop_freq = Double.parseDouble(args[7]);
-        base_km = Double.parseDouble(args[8]);
-        alpha = Double.parseDouble(args[9]);
-        delta1 = Double.parseDouble(args[10]);
-        delta2 = Double.parseDouble(args[11]);
-        theta = Double.parseDouble(args[12]);
-        initial_resource = Double.parseDouble(args[13]);
-        rows = (int) Double.parseDouble(args[14]);
+        initial_pop_size = (int) Double.parseDouble(args[2]);
+        mutant_freq = Double.parseDouble(args[3]);
+        coop_release_rate = Double.parseDouble(args[4]);
+        amount_for_new_cell = Double.parseDouble(args[5]);
+        initial_coop_freq = Double.parseDouble(args[6]);
+        base_km = Double.parseDouble(args[7]);
+        alpha = Double.parseDouble(args[8]);
+        delta1 = Double.parseDouble(args[9]);
+        delta2 = Double.parseDouble(args[10]);
+        theta = Double.parseDouble(args[11]);
+        initial_resource = Double.parseDouble(args[12]);
+        rows = (int) Double.parseDouble(args[13]);
         cols = rows;
-        frac_occupied = Double.parseDouble(args[15]);
-        migration_rate = Double.parseDouble(args[16]);
-        coop_to_cheat_mutation_rate = Double.parseDouble(args[17]);
-        cheat_to_coop_mutation_rate = Double.parseDouble(args[18]);
-        mutation_rate = Double.parseDouble(args[19]);
-        randomize = Boolean.parseBoolean(args[20]);
-        population_seed = Long.parseLong(args[21]);
-        location_seed = Long.parseLong(args[22]);
-        migration_seed = Long.parseLong(args[23]);
-        mutation_seed = Long.parseLong(args[24]);
-        env_change_seed = Long.parseLong(args[25]);
-        hours = (int) Double.parseDouble(args[26]);
-        save_every_dbl = Double.parseDouble(args[27]);
+        frac_occupied = Double.parseDouble(args[14]);
+        migration_rate = Double.parseDouble(args[15]);
+        coop_to_cheat_mutation_rate = Double.parseDouble(args[16]);
+        cheat_to_coop_mutation_rate = Double.parseDouble(args[17]);
+        mutation_rate = Double.parseDouble(args[18]);
+        randomize = Boolean.parseBoolean(args[19]);
+        population_seed = Long.parseLong(args[20]);
+        location_seed = Long.parseLong(args[21]);
+        migration_seed = Long.parseLong(args[22]);
+        mutation_seed = Long.parseLong(args[23]);
+        env_change_seed = Long.parseLong(args[24]);
+        hours = (int) Double.parseDouble(args[25]);
+        save_every_dbl = Double.parseDouble(args[26]);
         if (args.length == expected_length+1) {
            output_location = args[expected_length];           
         } else {
