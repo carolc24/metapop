@@ -78,11 +78,10 @@ plot.folder <- function(folder, save.path, run.pattern, device="png", plot.all=F
         save.folder <- ifelse(grepl("^/", folder), substring(folder,2), folder)
         save.path <- file.path("fig", save.folder)
     }
-
     if (!file.exists(save.path)) dir.create(save.path, recursive=TRUE)
 
     folders <- list.files(folder, full.names=TRUE)
-    folders <- subset(folders, grepl("global|local", folders))
+    folders <- subset(folders, grepl("mutant", folders))
     
     runs <- if (missing(run.pattern)) {
         # only taking first run if multiple reps are present.
@@ -96,9 +95,12 @@ plot.folder <- function(folder, save.path, run.pattern, device="png", plot.all=F
     cnt <- 1
     plotted <- list.files(save.path)
     for (cond in runs) {
+        cond.full.path <- file.path('fig', cond[1])
+        expr <- gregexpr('/', cond.full.path)[[1]]
+        full.path <- strtrim(cond.full.path, expr[length(expr)])
+        if (!file.exists(full.path)) { dir.create(full.path) }
         for (run in cond) {
             cat(cnt, "of", n.runs, "\n")
-
             if (skip.completed) {
                 if (any(grepl(basename(run), plotted))) {
                     cat("plot exists, skipping\n")
@@ -108,7 +110,7 @@ plot.folder <- function(folder, save.path, run.pattern, device="png", plot.all=F
             }
             
             formals(plot.timepoints) <- c(list(folder=run, device=device,
-                                               save.path=cond.full.path,
+                                               save.path=full.path,
                                                plot.all=plot.all,
                                                save.movie=FALSE,
                                                plot.two.types=plot.two.types,
@@ -777,7 +779,6 @@ summarize.runs <- function(folder, current.df=NULL, data.ext="tab", last=5,
                            max.runs=30, pattern=NULL, min.hr=2e4, ...)
 {
     graphics.off()
-    #browser()
     name.match <- paste("^.*/(.*)\\.",data.ext,sep="")
 
     conditions <- list.files(folder, full.names=TRUE, pattern=pattern)
@@ -891,7 +892,8 @@ summarize.runs <- function(folder, current.df=NULL, data.ext="tab", last=5,
                 if (coop.freqs[i] == 0 || is.nan(coop.freqs[i])) {
                     coop.freqs <- 0
                     break
-                } else if (coop.freqs[i] == 1) {
+                } 
+                else if (coop.freqs[i] == 1 && res[row.idx,]$'coop-to-cheat' == 0) {
                     coop.freqs <- 1
                     break
                 }
@@ -1215,7 +1217,6 @@ plot.survival.mutation <- function(dat, split2="occ", device="x11",
     graphics.off()
     library(binom)
     y.pad <- 0.02
-    browser()
     dat <- dat[order(dat$'mut-rate'),]
     x.label <- c(0, 1, log10(unique(dat[dat$'mut-rate'>0,]$'mut-rate')))
     n.rates <- length(unique(dat$'mut-rate'))
@@ -1275,8 +1276,8 @@ plot.survival.mutation <- function(dat, split2="occ", device="x11",
                     if (mut.rate != 0 && mut.rate != 1) {
                         mut.rate <- 10^mut.rate
                     }
-                    if (mut.rate %in% unique(last$mig)) {
-                        last.ss <- last[last$mig==mut.rate,]
+                    if (mut.rate %in% unique(last$'mut-rate')) {
+                        last.ss <- last[last$'mut-rate'==mut.rate,]
                         last.s <- unique(last.ss[last.split.name])
                         survived <- length(last.ss$coop.freq.mean[
                                            last.ss$coop.freq.mean>cutoff])
